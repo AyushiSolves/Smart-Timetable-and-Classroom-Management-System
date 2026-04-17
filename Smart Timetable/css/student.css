@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f6f9;
+}
+
+/* layout */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* sidebar */
+.sidebar {
+    width: 240px;
+    background: #1e2a38;
+    color: white;
+    padding: 20px 0;
+}
+
+/* menu */
+.student-panel.sidebar ul li {
+    list-style: none;
+    padding: 12px 20px;
+    cursor: pointer;
+}
+
+.student-panel.sidebar ul li:hover {
+    background: #2f4156;
+}
+
+/* main */
+.student-panel.main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* cards */
+.student-panel.card {
+    background: white;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* dashboard cards */
+.student-panel.dashboard-cards {
+    display: flex;
+    gap: 10px;
+}
+
+.student-panel.dashboard-cards .card {
+    flex: 1;
+}

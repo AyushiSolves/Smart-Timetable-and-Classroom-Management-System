@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Panel - Smart Timetable & Classroom Monitoring</title>
+    <!-- We will use the common style.css with a few class differences -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/student.css">
+</head>
+<body class="student-panel">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" style="background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);">
+    <div class="sidebar-header">
+        <i class='bx bxs-graduation'></i>
+        <h2>Smart Timetable &<br>Classroom Monitoring<br>System</h2>
+    </div>
+
+    <ul class="sidebar-menu">
+        <li class="active" onclick="openStudentDashboard()" id="nav-s-dashboard">
+            <i class='bx bxs-home'></i> Dashboard
+        </li>
+        <li onclick="openStudentTimetable()" id="nav-s-timetable">
+            <i class='bx bxs-calendar'></i> View Timetable
+        </li>
+        <li onclick="openStudentNotices()" id="nav-s-notices">
+            <i class='bx bxs-bell'></i> View Notices
+        </li>
+        <li onclick="openStudentProfile()" id="nav-s-profile">
+            <i class='bx bxs-user'></i> Profile
+        </li>
+    </ul>
+
+    <button class="logout-btn" onclick="logout()">
+        <i class='bx bx-log-out'></i> Logout
+    </button>
+</aside>
+
+<!-- MAIN WRAPPER -->
+<div class="main-wrapper">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <i class='bx bx-menu'></i>
+        </div>
+        <div class="topbar-right">
+            <div class="notif-btn">
+                <i class='bx bxs-bell'></i>
+            </div>
+            <div class="profile-dropdown">
+                <div class="profile-avatar"><i class='bx bxs-user'></i></div>
+                <div class="profile-info">
+                    <h4 id="top_s_name">Student</h4>
+                    <p>Student <i class='bx bx-chevron-down'></i></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT AREA -->
+    <main class="content-area">
+
+        <!-- DASHBOARD -->
+        <div id="studentDashboard" class="section">
+            <div class="page-greeting">
+                <h1>Dashboard</h1>
+                <p>Welcome back! Here's an overview of your academic information.</p>
+            </div>
+
+            <div class="top-stats">
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon"><i class='bx bxs-calendar-event'></i></div>
+                    <div class="stat-info">
+                        <h3>Today's Classes</h3>
+                        <div class="stat-num" id="s_todayClasses">0</div>
+                        <a onclick="openStudentTimetable()" class="stat-link">View today's schedule <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+                <div class="stat-card stat-green">
+                    <div class="stat-icon"><i class='bx bxs-book'></i></div>
+                    <div class="stat-info">
+                        <h3>Subjects</h3>
+                        <div class="stat-num" id="s_subjects">0</div>
+                        <span class="stat-link" style="color:var(--text-muted); text-decoration:none; cursor:default;">This Semester</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-orange">
+                    <div class="stat-icon"><i class='bx bxs-bell-ring'></i></div>
+                    <div class="stat-info">
+                        <h3>New Notices</h3>
+                        <div class="stat-num" id="s_notices">0</div>
+                        <a onclick="openStudentNotices()" class="stat-link">Unread notices <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+                 <div class="stat-card stat-purple">
+                    <div class="stat-icon"><i class='bx bxs-time-five'></i></div>
+                    <div class="stat-info">
+                        <h3>Attendance</h3>
+                        <div class="stat-num">85%</div>
+                        <span class="stat-link" style="color:var(--text-muted); text-decoration:none; cursor:default;">Overall Attendance</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class='bx bx-calendar'></i> Today's Schedule</h3>
+                    <a onclick="openStudentTimetable()" class="card-action">View Full Timetable <i class='bx bx-right-arrow-alt'></i></a>
+                </div>
+                <div class="modern-table-wrapper">
+                    <table class="modern-table" id="s_todayTable">
+                         <!-- JS will populate -->
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIMETABLE -->
+        <div id="studentTimetable" class="section hidden">
+            <div class="page-greeting">
+                <h1>View Timetable</h1>
+                <p>Here is your complete class timetable.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div style="display:flex; align-items:center; gap: 1rem;">
+                        <span style="font-size:0.9rem; font-weight:500;">Select Day:</span>
+                        <select class="form-control" style="width: 200px;">
+                            <option>All Days</option>
+                            <option>Monday</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-outline"><i class='bx bx-download'></i> Download Timetable</button>
+                </div>
+                <div class="modern-table-wrapper">
+                    <table class="modern-table" id="s_fullTable">
+                        <tr><th>Day</th><th>Time</th><th>Subject</th><th>Faculty</th><th>Room</th></tr>
+                         <!-- Populated by JS -->
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTICES -->
+        <div id="studentNotices" class="section hidden">
+            <div class="page-greeting">
+                <h1>View Notices</h1>
+                <p>Stay updated with the latest announcements.</p>
+            </div>
+
+            <div class="card">
+                 <div id="s_noticeList" style="display: flex; flex-direction: column; gap:1rem;">
+                        <!-- List view injected here by JS instead of ul -->
+                 </div>
+            </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="studentProfile" class="section hidden">
+             <div class="page-greeting">
+                <h1>Profile</h1>
+                <p>View your personal information.</p>
+            </div>
+
+             <div class="card" style="display: flex; gap: 3rem; padding: 3rem;">
+                  <div class="profile-avatar-large" style="width:150px; height:150px; font-size:5rem;">
+                       <i class='bx bxs-user'></i>
+                  </div>
+                  <div class="profile-info-large">
+                      <h2 id="s_name">Loading...</h2>
+                      <span class="badge current" id="s_role">Student</span>
+                      
+                      <div class="profile-grid" style="grid-template-columns: 1fr; margin-top:2rem;">
+                        <div class="profile-grid-item"><span>Roll Number</span> <strong>23CS1015</strong></div>
+                        <div class="profile-grid-item"><span>Course</span> <strong>B.Tech CSE</strong></div>
+                        <div class="profile-grid-item"><span>Semester</span> <strong>4th Semester</strong></div>
+                        <div class="profile-grid-item"><span>Email</span> <strong>student@college.edu</strong></div>
+                        <div class="profile-grid-item"><span>Phone</span> <strong>+91 XXXXXXXX</strong></div>
+                      </div>
+
+                      <button class="btn btn-danger-outline" style="margin-top:2rem;" onclick="logout()"><i class='bx bx-log-out'></i> Logout</button>
+                  </div>
+             </div>
+
+             <div style="margin-top: 1.5rem; background: var(--info-bg); color: var(--info-text); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid #bfdbfe; font-size: 0.9rem; display: flex; gap: 0.75rem;">
+                  <i class='bx bxs-info-circle' style="font-size: 1.25rem;"></i>
+                  <span><strong>Note:</strong> Keep your profile information updated. Contact admin for any changes.</span>
+             </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>

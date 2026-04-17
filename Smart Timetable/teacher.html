@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Panel - Smart Timetable & Classroom Monitoring</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="teacher-panel">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <i class='bx bxs-graduation'></i>
+        <h2>Smart Timetable &<br>Classroom Monitoring<br>System</h2>
+    </div>
+
+    <ul class="sidebar-menu">
+        <li class="active" onclick="openDashboard()" id="nav-dashboard">
+            <i class='bx bxs-home'></i> Dashboard
+        </li>
+        <li onclick="showSection('timetable')" id="nav-timetable">
+            <i class='bx bxs-calendar'></i> My Timetable
+        </li>
+        <li onclick="showSection('classroom')" id="nav-classroom">
+            <i class='bx bxs-building-house'></i> Classroom Management
+        </li>
+        <li onclick="showSection('requests')" id="nav-requests">
+            <i class='bx bxs-message-square-dots'></i> Requests
+        </li>
+        <li onclick="openNotices()" id="nav-notices">
+            <i class='bx bxs-bell'></i> Notices
+        </li>
+        <li onclick="openProfile()" id="nav-profile">
+            <i class='bx bxs-user'></i> Profile
+        </li>
+    </ul>
+
+    <button class="logout-btn" onclick="logout()">
+        <i class='bx bx-log-out'></i> Logout
+    </button>
+</aside>
+
+<!-- MAIN WRAPPER -->
+<div class="main-wrapper">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <i class='bx bx-menu'></i>
+        </div>
+        <div class="topbar-right">
+            <div class="notif-btn">
+                <i class='bx bxs-bell'></i>
+                <span class="notif-badge" id="top-notif-count">2</span>
+            </div>
+            <div class="profile-dropdown">
+                <div class="profile-avatar"><i class='bx bxs-user'></i></div>
+                <div class="profile-info">
+                    <h4 id="top_name">Loading...</h4>
+                    <p>Teacher <i class='bx bx-chevron-down'></i></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT AREA -->
+    <main class="content-area">
+
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="section">
+            <div class="page-greeting">
+                <h1 id="greeting_title">Welcome back! 👋</h1>
+                <p>Here's what's happening today.</p>
+            </div>
+
+            <div class="top-stats">
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon"><i class='bx bxs-calendar-event'></i></div>
+                    <div class="stat-info">
+                        <h3>Today's Classes</h3>
+                        <div class="stat-num" id="todayClasses">0</div>
+                        <a onclick="showSection('timetable')" class="stat-link">View today schedule <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+                <div class="stat-card stat-green">
+                    <div class="stat-icon"><i class='bx bxs-door-open'></i></div>
+                    <div class="stat-info">
+                        <h3>Available Rooms</h3>
+                        <div class="stat-num" id="availableRooms">5</div>
+                        <a onclick="showSection('classroom')" class="stat-link">View all rooms <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+                <div class="stat-card stat-purple">
+                    <div class="stat-icon"><i class='bx bxs-message-square-detail'></i></div>
+                    <div class="stat-info">
+                        <h3>Pending Requests</h3>
+                        <div class="stat-num" id="pendingRequests">0</div>
+                        <a onclick="showSection('requests')" class="stat-link">View requests <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+                <div class="stat-card stat-orange">
+                    <div class="stat-icon"><i class='bx bxs-bell-ring'></i></div>
+                    <div class="stat-info">
+                        <h3>New Notices</h3>
+                        <div class="stat-num" id="totalNotices">0</div>
+                        <a onclick="openNotices()" class="stat-link">View notices <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class='bx bx-calendar'></i> Today's Schedule</h3>
+                        <a onclick="showSection('timetable')" class="card-action">View Full Timetable <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                    <div class="modern-table-wrapper">
+                        <table class="modern-table" id="todayTable">
+                           <!-- JS will populate -->
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class='bx bx-message-square-dots'></i> Pending Requests</h3>
+                        <a onclick="showSection('requests')" class="card-action">View All Requests <i class='bx bx-right-arrow-alt'></i></a>
+                    </div>
+                    <div class="request-list">
+                        <!-- Simplified display -->
+                        <div class="list-item">
+                            <div class="list-icon purple">AS</div>
+                            <div class="list-content">
+                                <p><strong>Prof. Anjali Singh</strong> wants to book Room 102</p>
+                                <small>Time: 02:00 PM - 03:00 PM | Today</small>
+                            </div>
+                            <div class="list-actions">
+                                <button class="btn btn-sm btn-success-outline"><i class='bx bx-check'></i> Approve</button>
+                                <button class="btn btn-sm btn-danger-outline"><i class='bx bx-x'></i> Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="card">
+                <div class="card-header">
+                    <h3><i class='bx bx-bell'></i> Latest Notices</h3>
+                    <a onclick="openNotices()" class="card-action">View All Notices <i class='bx bx-right-arrow-alt'></i></a>
+                </div>
+                <div id="recentNotices" class="notice-list-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TIMETABLE -->
+        <div id="timetable" class="section hidden">
+            <div class="page-greeting">
+                <h1>Timetable Management</h1>
+                <p>Create, update and view timetable entries.</p>
+            </div>
+
+            <div class="dashboard-grid" style="grid-template-columns: 2fr 1fr">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>My Timetable</h3>
+                    </div>
+                    <div class="modern-table-wrapper">
+                        <table class="modern-table" id="myTable">
+                            <tr><th>Day</th><th>Time</th><th>Subject</th><th>Room</th><th>Action</th></tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card" style="background:#f8fafc;">
+                    <div class="card-header">
+                        <h3>Create New Class</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Day</label>
+                        <select id="day" class="form-control">
+                            <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+                            <option>Thursday</option><option>Friday</option><option>Saturday</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Time Slot</label>
+                        <input type="text" id="time" class="form-control" placeholder="e.g. 10:00 AM - 11:00 AM">
+                    </div>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" id="subject" class="form-control" placeholder="Subject name">
+                    </div>
+                    <div class="form-group">
+                        <label>Room</label>
+                        <input type="text" id="room" class="form-control" placeholder="Room 101">
+                    </div>
+                    <button class="btn btn-primary" onclick="addTimetable()" style="width: 100%; margin-top: 1rem;"><i class='bx bx-plus'></i> Add Class</button>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="card-header">
+                    <h3>Full Timetable (All Teachers)</h3>
+                </div>
+                <div class="modern-table-wrapper">
+                    <table class="modern-table" id="fullTable">
+                        <tr><th>Day</th><th>Time</th><th>Subject</th><th>Faculty</th><th>Room</th></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- CLASSROOM -->
+        <div id="classroom" class="section hidden">
+             <div class="page-greeting">
+                <h1>Classroom Management</h1>
+                <p>View classroom availability, book rooms and manage requests.</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <div class="form-row" style="margin-bottom: 0;">
+                    <div class="form-group">
+                        <label>Select Day</label>
+                         <select id="c_day" class="form-control">
+                            <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+                            <option>Thursday</option><option>Friday</option><option>Saturday</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Time Slot</label>
+                        <input type="text" id="c_time" class="form-control" placeholder="10:00 AM - 11:00 AM">
+                    </div>
+                    <div class="form-group">
+                        <label>Specific Room</label>
+                        <input type="text" id="c_room" class="form-control" placeholder="Room 101">
+                    </div>
+                    <div class="form-group" style="display:flex; align-items: flex-end;">
+                        <button class="btn btn-primary" onclick="checkClassroom()" style="width:100%; padding: 0.6rem;"><i class='bx bx-search'></i> Check Availability</button>
+                    </div>
+                </div>
+
+                <div style="margin-top:1.5rem; padding: 1rem; background: #f8fafc; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                    <p id="status" style="font-weight: 500; font-size: 1.1rem; margin-bottom: 0.5rem;">Enter details above to check availability</p>
+                    <button id="bookBtn" class="btn btn-success-outline hidden" onclick="bookClass()"><i class='bx bxs-check-circle'></i> Book Now</button>
+                    <button id="requestBtn" class="btn btn-danger-outline hidden" onclick="sendRequest()"><i class='bx bxs-share'></i> Send Request</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- REQUESTS -->
+        <div id="requests" class="section hidden">
+            <div class="page-greeting">
+                <h1>Requests</h1>
+                <p>Manage classroom change requests from other teachers and track your sent requests.</p>
+            </div>
+
+            <div class="card">
+                <div class="tabs">
+                    <div class="tab active">Incoming Requests</div>
+                </div>
+                <div class="modern-table-wrapper">
+                    <table class="modern-table" id="requestTable">
+                        <!-- Populated by JS -->
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTICES -->
+        <div id="notices" class="section hidden">
+            <div class="page-greeting">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1>Notices</h1>
+                        <p>View all important announcements and updates.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notice-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class='bx bx-message-dots'></i> All Notices</h3>
+                    </div>
+                    <div id="noticeTable" style="display: flex; flex-direction: column; gap:1rem;">
+                        <!-- List view injected here by JS instead of table -->
+                    </div>
+                </div>
+
+                <div class="card" style="background:#f8fafc; height: max-content;">
+                    <div class="card-header">
+                        <h3>Create New Notice</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" id="noticeTitle" class="form-control" placeholder="Enter notice title">
+                    </div>
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea id="noticeDesc" class="form-control" rows="4" placeholder="Enter notice description"></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="addNotice()" style="width: 100%;"><i class='bx bxs-send'></i> Post Notice</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="profile" class="section hidden">
+            <div class="page-greeting">
+                <h1>Profile</h1>
+                <p>View and manage your personal information and account settings.</p>
+            </div>
+
+            <div class="profile-header">
+                <div class="profile-avatar-large">
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="profile-info-large flex-grow-1">
+                    <h2 id="p_username">Dr. Rahul Sharma</h2>
+                    <span class="badge current" id="p_role">Teacher</span>
+                    <div style="display:flex; gap: 2rem; margin-top: 1rem;">
+                        <span style="color:var(--text-muted); font-size:0.9rem;"><i class='bx bx-envelope'></i> rahul@college.edu</span>
+                        <span style="color:var(--text-muted); font-size:0.9rem;"><i class='bx bx-buildings'></i> Computer Science</span>
+                    </div>
+                </div>
+                <div>
+                     <button class="btn btn-outline" style="width: 100%; margin-bottom:0.5rem;" onclick="toggleEdit()"><i class='bx bx-edit'></i> Edit Profile</button>
+                     <button class="btn btn-outline" style="width: 100%;" onclick="changePassword()"><i class='bx bx-lock-alt'></i> Change Password</button>
+                </div>
+            </div>
+
+            <!-- Edit Form -->
+             <div class="card hidden" id="editForm" style="margin-bottom: 1.5rem;">
+                <div class="card-header"><h3>Edit Details</h3></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="editName" class="form-control" placeholder="Enter Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email ID</label>
+                        <input type="text" id="editEmail" class="form-control" placeholder="Enter Email">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                     <div class="card-header"><h3><i class='bx bx-user-pin'></i> Profile Information</h3></div>
+                      <div class="profile-grid" style="grid-template-columns: 1fr;">
+                        <div class="profile-grid-item"><span>Full Name</span> <strong id="p_username2"></strong></div>
+                        <div class="profile-grid-item"><span>Role</span> <strong id="p_role2"></strong></div>
+                        <div class="profile-grid-item"><span>Email</span> <strong>rahul@college.edu</strong></div>
+                        <div class="profile-grid-item"><span>Department</span> <strong>Computer Science</strong></div>
+                        <div class="profile-grid-item"><span>Phone</span> <strong>+91 XXXXXXXX</strong></div>
+                      </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><h3><i class='bx bx-bar-chart-alt-2'></i> Account Statistics</h3></div>
+                    <div class="dashboard-grid">
+                         <div class="stat-card stat-blue" style="padding:1rem;">
+                            <div class="stat-info">
+                                <h3 style="font-size:0.8rem">Classes Taken</h3>
+                                <div class="stat-num" id="statClasses" style="font-size:1.2rem">0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-green" style="padding:1rem;">
+                            <div class="stat-info">
+                                <h3 style="font-size:0.8rem">Rooms Booked</h3>
+                                <div class="stat-num" id="statRooms" style="font-size:1.2rem">0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-orange" style="padding:1rem;">
+                            <div class="stat-info">
+                                <h3 style="font-size:0.8rem">Pending Requests</h3>
+                                <div class="stat-num" id="statRequests" style="font-size:1.2rem">0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-purple" style="padding:1rem;">
+                            <div class="stat-info">
+                                <h3 style="font-size:0.8rem">Notices Posted</h3>
+                                <div class="stat-num" id="statNotices" style="font-size:1.2rem">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+<script src="js/script.js"></script>
+
+<script>
+displayTimetable();
+displayRequests();
+</script>
+
+</body>
+</html>
